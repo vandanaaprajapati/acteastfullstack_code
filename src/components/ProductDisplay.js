@@ -136,7 +136,7 @@
 // export default ProductDisplay;
 
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 import { FiArrowRight, FiChevronDown, FiImage, FiPackage, FiShoppingCart } from "react-icons/fi";
@@ -168,6 +168,7 @@ const ProductDisplay = () => {
   const [openVariantMenu, setOpenVariantMenu] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const initialCategoryChecked = useRef(false);
 
   const visibleProducts = products.filter(
     (product) => product.category === selectedCategory
@@ -228,6 +229,20 @@ const ProductDisplay = () => {
     }
   }, [location.state?.category]);
 
+  // On first load only: fall back to a category that has products when the default is missing or empty.
+  useEffect(() => {
+    if (loading || categories.length === 0 || initialCategoryChecked.current) return;
+    initialCategoryChecked.current = true;
+
+    const hasProducts = (slug) =>
+      products.some((product) => product.category === slug);
+
+    if (hasProducts(selectedCategory)) return;
+
+    const fallback = categories.find((category) => hasProducts(category.slug));
+    if (fallback) setSelectedCategory(fallback.slug);
+  }, [loading, categories, products, selectedCategory]);
+
   useEffect(() => {
     const closeOnOutsideClick = (event) => {
       if (!event.target.closest(".catalog-size-control")) {
@@ -258,7 +273,7 @@ const ProductDisplay = () => {
     >
       <div className="absolute inset-0 z-0 bg-gray-300/90 pointer-events-none"></div>
 
-      <div className="container relative z-10 mx-auto flex flex-col gap-5 md:flex-row">
+      <div className="container relative z-20 mx-auto flex flex-col gap-5 md:flex-row">
 
         <div className="catalog-category-mobile block md:hidden w-full">
           <button
@@ -391,9 +406,6 @@ const ProductDisplay = () => {
                       </div>
                       <div
                         className={`catalog-size-control${openVariantMenu === product._id ? " is-open" : ""}`}
-                        onMouseLeave={() => setOpenVariantMenu((current) => (
-                          current === product._id ? "" : current
-                        ))}
                       >
                         <span className="catalog-size-label">Choose pack size</span>
                         <button
