@@ -1,0 +1,138 @@
+.checkout-progress {
+  position: relative;
+  margin: 0 0 24px;
+  padding: 0;
+}
+
+.checkout-progress-track {
+  position: absolute;
+  top: 14px;
+  right: 16.6667%;
+  left: 16.6667%;
+  height: 3px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: #dce5d8;
+}
+
+.checkout-progress-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #78a83b, #e99a36);
+  transition: width 360ms ease;
+}
+
+.checkout-progress ol {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.checkout-progress-step {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #89948b;
+  text-align: center;
+}
+
+.checkout-progress-marker {
+  display: grid;
+  width: 31px;
+  height: 31px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid #cfd9ce;
+  border-radius: 50%;
+  color: #778278;
+  background: #fff;
+  font-size: 11px;
+  font-weight: 750;
+  box-shadow: 0 0 0 4px #f6f8f4;
+  transition: color 220ms ease, border-color 220ms ease, background-color 220ms ease, box-shadow 220ms ease;
+}
+
+.checkout-progress-marker svg {
+  width: 14px;
+  height: 14px;
+  stroke-width: 3;
+}
+
+.checkout-progress-label {
+  display: block;
+  max-width: 100%;
+  min-height: 28px;
+  color: inherit;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.3;
+  overflow-wrap: anywhere;
+}
+
+.checkout-progress-step.is-current {
+  color: #174a32;
+}
+
+.checkout-progress-step.is-current .checkout-progress-marker {
+  border-color: #174a32;
+  color: #fff;
+  background: #174a32;
+  box-shadow: 0 0 0 4px #f6f8f4, 0 0 0 7px rgb(120 168 59 / 20%);
+}
+
+.checkout-progress-step.is-complete {
+  color: #326340;
+}
+
+.checkout-progress-step.is-complete .checkout-progress-marker {
+  border-color: #326340;
+  color: #fff;
+  background: #326340;
+}
+
+@media (max-width: 480px) {
+  .checkout-progress {
+    margin-bottom: 18px;
+  }
+
+  .checkout-progress-track {
+    top: 11px;
+    height: 2px;
+  }
+
+  .checkout-progress ol {
+    gap: 3px;
+  }
+
+  .checkout-progress-marker {
+    width: 25px;
+    height: 25px;
+    font-size: 10px;
+    box-shadow: 0 0 0 3px #f6f8f4;
+  }
+
+  .checkout-progress-step.is-current .checkout-progress-marker {
+    box-shadow: 0 0 0 3px #f6f8f4, 0 0 0 6px rgb(120 168 59 / 20%);
+  }
+
+  .checkout-progress-label {
+    max-width: 92px;
+    min-height: 28px;
+    font-size: 10px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .checkout-progress-track span,
+  .checkout-progress-marker {
+    transition: none;
+  }
+}

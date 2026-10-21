@@ -1,0 +1,2 @@
+User-agent: *
+Sitemap: https://acteast.co.in/sitemap.xml
